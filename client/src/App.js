@@ -2,7 +2,7 @@ import NavBar from './components/Navbar';
 import "./App.css"
 import {BrowserRouter,Route} from 'react-router-dom'
 import Home from './components/screens/Home'
-import Login from './components/screens/Login'
+import Signin from './components/screens/Signin'
 import Profile from './components/screens/Profile'
 import Signup from './components/screens/Signup'
 
@@ -17,8 +17,8 @@ function App() {
       <Route path="/signup">
         <Signup />
       </Route>
-      <Route path="/login">
-        <Login />
+      <Route path="/signin">
+        <Signin />
       </Route>
       <Route path="/profile">
         <Profile />
