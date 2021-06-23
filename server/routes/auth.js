@@ -3,6 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const User = mongoose.model("User");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const {JWT_SECRET}=require('../keys');
+const requireLogin = require('../middleware/requireLogin');
+
+//로그인 되어있어야 접근 가능
+router.get('/protected',requireLogin,(req,res)=>{
+    res.send("hello user");
+})
 
 //회원가입
 router.post('/signup',(req,res)=>{
@@ -55,7 +63,10 @@ router.post('/signin',(req,res)=>{
         bcrypt.compare(password,savedUser.password)
         .then(doMatch=>{//입력 비번과 사용자 비번 일치하면
             if(doMatch){
-                res.json({message:"successfully signed in"});
+                //res.json({message:"successfully signed in"});
+                //일치하면 무작위 토큰 생성
+                const token = jwt.sign({id:savedUser._id},JWT_SECRET);
+                res.json({token});
             }
             else{
                 return res.status(422).json({error:"Invalid Email or password"})
