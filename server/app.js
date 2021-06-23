@@ -12,7 +12,7 @@ mongoose.connection.on('connected',()=>{
     console.log("connected to mongo.");
 })
 mongoose.connection.on('error',()=>{
-    console.log("mongodb connection error",err);
+    console.log("mongodb connection error");
 })
 
 require('./models/user');
