@@ -51,7 +51,7 @@ router.post('/signup',(req,res)=>{
 
 //로그인 할 때
 router.post('/signin',(req,res)=>{
-    const{email,password}=req.body;
+    const{email,password}=req.body
     if(!email || !password){
         return res.status(422).json({error:"please add email or password"});
     }
@@ -65,8 +65,9 @@ router.post('/signin',(req,res)=>{
             if(doMatch){
                 //res.json({message:"successfully signed in"});
                 //일치하면 무작위 토큰 생성
-                const token = jwt.sign({id:savedUser._id},JWT_SECRET);
-                res.json({token});
+                const token = jwt.sign({_id:savedUser._id},JWT_SECRET);
+                const{_id, name, email} = savedUser
+                res.json({token,user:{_id,name,email}});
             }
             else{
                 return res.status(422).json({error:"Invalid Email or password"})

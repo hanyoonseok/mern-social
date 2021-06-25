@@ -3,8 +3,9 @@ const {JWT_SECRET}=require('../keys');
 const mongoose = require('mongoose');
 const User = mongoose.model("User");
 
+//여기서 걸려서 아예 post로 안넘어감
 module.exports = (req,res,next) =>{
-    const {authorization} =req.headers;
+    const {authorization} =req.headers
     //authorization === Bearer (eeetrdasdvae)
     if(!authorization){
         return res.status(401).json({error:"you must be logged in"})
@@ -15,9 +16,9 @@ module.exports = (req,res,next) =>{
             return res.status(401).json({error:"you must be logged in"})
         }
         const {_id}=payload;
-        User.findById(id).then(userdata=>{
+        User.findById(_id).then(userdata=>{
             req.user = userdata;
-            next();
+            next()
         })
     })
 }

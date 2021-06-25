@@ -10,11 +10,12 @@ const Signup = ()=>{
 
     const PostData=()=>{
         //email 양식 안맞으면
+        //eslint-disable-next-line
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
             M.toast({html:"invalid email",classes:"#c62828 red darken-3"})
             return
         } 
-        
+
         //fetch
         fetch("/signup",{
             method:"post",
@@ -35,8 +36,9 @@ const Signup = ()=>{
                 M.toast({html:data.message,classes:"#43a047 green darken-1"})
                 history.push('/signin') //회원가입 성공시 여기로 이동시킴
             }
+        }).catch(err=>{
+            console.log(err);
         })
-    
     }
     return(
         <div className="mycard">
