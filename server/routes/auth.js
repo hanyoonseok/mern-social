@@ -17,7 +17,7 @@ router.post('/signup',(req,res)=>{
     const{name,email,password}=req.body;
     if(!email || !password || !name){ 
         //아이디, 이름, 비밀번호중 하나라도 누락이면 에러메시지
-        return res.status(422).json({error:"please add all the field"});
+        return res.status(422).json({error:"please add all the fields"});
     }
 
     //중복된 이메일 사용시
