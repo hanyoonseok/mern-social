@@ -5,6 +5,7 @@ import Home from './components/screens/Home'
 import Signin from './components/screens/Signin'
 import Profile from './components/screens/Profile'
 import Signup from './components/screens/Signup'
+import CreatePost from './components/screens/CreatePost'
 
 //path에 따라서 보여주는거 다르게 함
 function App() {
@@ -22,6 +23,9 @@ function App() {
       </Route>
       <Route path="/profile">
         <Profile />
+      </Route>
+      <Route path="/create">
+        <CreatePost />
       </Route>
     </BrowserRouter>
   );
