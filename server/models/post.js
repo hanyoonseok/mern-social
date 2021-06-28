@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema({
         type:String, //url로 받을거라서
         required:true
     },
+    likes:[{type:ObjectId,ref:"User"}],
     postedBy:{//User의 오브젝트아이디
         type:ObjectId,
         ref:"User" 
