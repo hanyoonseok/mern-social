@@ -22,4 +22,38 @@ router.get('/user/:id',requireLogin,(req,res)=>{
     })
 })
 
+router.put('/follow',requireLogin,(req,res)=>{
+    User.findByIdAndUpdate(req.body.followId,{//팔로우하는 상대계정의 id
+        $push:{followers:req.user._id}
+    },{new:true},(err,result)=>{
+        if(err){
+            return res.status(422).json({error:err})
+        }
+        User.findByIdAndUpdate(req.user._id,{//로그인한 유저 id
+            $push:{following:req.body.followId}
+        },{new:true}).select("-password").then(result=>{ //password는 필요없다
+            res.json(result)
+        }).catch(err=>{
+            return res.status(422).json({error:err})
+        })
+    }) 
+})
+
+router.put('/unfollow',requireLogin,(req,res)=>{
+    User.findByIdAndUpdate(req.body.unfollowId,{//팔로우하는 상대계정의 id
+        $pull:{followers:req.user._id}
+    },{new:true},(err,result)=>{
+        if(err){
+            return res.status(422).json({error:err})
+        }
+        User.findByIdAndUpdate(req.user._id,{//로그인한 유저 id
+            $pull:{following:req.body.unfollowId}
+        },{new:true}).select("-password").then(result=>{
+            res.json(result)
+        }).catch(err=>{
+            return res.status(422).json({error:err})
+        })
+    }) 
+})
+
 module.exports = router;
