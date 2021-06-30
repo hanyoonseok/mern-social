@@ -14,7 +14,7 @@ router.get('/protected',requireLogin,(req,res)=>{
 
 //회원가입
 router.post('/signup',(req,res)=>{
-    const{name,email,password}=req.body;
+    const{name,email,password,pic}=req.body;
     if(!email || !password || !name){ 
         //아이디, 이름, 비밀번호중 하나라도 누락이면 에러메시지
         return res.status(422).json({error:"please add all the fields"});
@@ -33,7 +33,8 @@ router.post('/signup',(req,res)=>{
             const user = new User({
                 email,
                 password:hashedpassword,
-                name
+                name,
+                pic
             })
             user.save()
             .then(user=>{
@@ -66,8 +67,8 @@ router.post('/signin',(req,res)=>{
                 //res.json({message:"successfully signed in"});
                 //일치하면 무작위 토큰 생성
                 const token = jwt.sign({_id:savedUser._id},JWT_SECRET);
-                const{_id, name, email,followers,following} = savedUser
-                res.json({token,user:{_id,name,email,followers,following}})
+                const{_id, name, email,followers,following,pic} = savedUser
+                res.json({token,user:{_id,name,email,followers,following,pic}})
             }
             else{
                 return res.status(422).json({error:"Invalid Email or password"})
