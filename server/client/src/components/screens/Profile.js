@@ -5,7 +5,6 @@ const Profile = ()=>{
     const [mypics, setPics] = useState([])
     const {state,dispatch} = useContext(UserContext)
     const [image, setImage]=useState("")
-    const [url, setUrl]=useState("")
 
     useEffect(()=>{
         fetch('/mypost',{
@@ -30,9 +29,21 @@ const Profile = ()=>{
             })
             .then(res=>res.json())
             .then(data=>{
-                setUrl(data.url) //useEffect 호출
-                localStorage.setItem("user",JSON.stringify({...state,pic:data.url}))
-                dispatch({type:"UPDATEPIC",payload:data.url})
+                fetch('/updatepic',{
+                    method:"put",
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":"Bearer "+localStorage.getItem("jwt")
+                    },
+                    body:JSON.stringify({
+                        pic:data.url
+                    })
+                }).then(res=>res.json())
+                .then(result=>{
+                    localStorage.setItem("user",JSON.stringify({...state,pic:data.pic}))
+                    dispatch({type:"UPDATEPIC",payload:result.pic})
+                    //window.location.reload()
+                })
             })
             .catch(err=>{ 
                 console.log(err)
@@ -63,8 +74,8 @@ const Profile = ()=>{
                     <h5>{state?state.email:"loading"}</h5>
                     <div style={{display:"flex",justifyContent:"space-between", width:"108%"}}>
                         <h6>{mypics.length} posts</h6>
-                        <h6>{state.followers != undefined?state.followers.length:"0"} followers</h6>
-                        <h6>{state.following != undefined?state.following.length:"0"} following</h6>
+                        <h6>{state?state.followers.length:"0"} followers</h6>
+                        <h6>{state?state.following.length:"0"} following</h6>
                     </div>
                 </div>
             </div>

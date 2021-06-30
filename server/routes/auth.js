@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model("User");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {JWT_SECRET}=require('../keys');
+const {JWT_SECRET}=require('../config/keys');
 const requireLogin = require('../middleware/requireLogin');
 
 //로그인 되어있어야 접근 가능
